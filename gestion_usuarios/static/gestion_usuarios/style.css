@@ -1,0 +1,231 @@
+/* ================= RESET ================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar {
+    background: linear-gradient(135deg, #4f46e5, #1e3a8a);
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h2 {
+    font-size: 22px;
+}
+
+.navbar a {
+    color: white;
+    margin-left: 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    opacity: 0.85;
+}
+
+.nav-info {
+    display: flex;
+    align-items: center;
+}
+
+/* ================= CONTENEDOR ================= */
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 0 15px;
+}
+
+/* ================= TARJETAS ================= */
+
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.titulo {
+    margin-bottom: 20px;
+    color: #1e3a8a;
+}
+
+/* ================= PERFIL ================= */
+
+.perfil-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.perfil-item span {
+    color: #555;
+}
+
+.perfil-item strong {
+    color: #111827;
+}
+
+/* ================= FORMULARIOS ================= */
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.form-row label {
+    width: 120px;
+    font-size: 14px;
+    color: #374151;
+}
+
+.form-row input,
+.form-row select {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    background: transparent;
+}
+
+.rol-row {
+    margin-bottom: 30px;
+}
+
+/* ================= BOTONES ================= */
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-primary,
+.login-box button {
+    width: 100%;
+    background: linear-gradient(135deg, #4f46e5, #1e3a8a);
+    color: white;
+}
+
+.btn-primary:hover,
+.login-box button:hover {
+    opacity: 0.9;
+}
+
+.btn-logout {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ================= ALERTAS ================= */
+
+.alerta {
+    background: #fdecea;
+    color: #c62828;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+/* ================= LOGIN / REGISTRO ================= */
+
+.login-body {
+    background: white;
+}
+
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* PANEL IZQUIERDO */
+.login-left {
+    width: 50%;
+    background: linear-gradient(135deg, #4f46e5, #1e3a8a);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-left .overlay {
+    width: 70%;
+}
+
+.login-left h1 {
+    font-size: 38px;
+    margin-bottom: 20px;
+}
+
+.login-left p {
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+/* PANEL DERECHO */
+.login-right {
+    width: 50%;
+    background: #f9fafb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    width: 320px;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: #111827;
+}
+
+.login-box input,
+.login-box select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    background: transparent;
+}
+
+/* TEXTO EXTRA */
+.extra {
+    margin-top: 12px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.extra a {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: bold;
+}
+

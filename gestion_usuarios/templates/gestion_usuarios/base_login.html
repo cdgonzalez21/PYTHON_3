@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block titulo %} {% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'gestion_usuarios/login.css' %}?v=1">
+    <link rel="stylesheet" href="{% static 'gestion_usuarios/forms.css' %}?v=1">
+
+</head>
+
+<body class="login-body">
+
+    <div class="login-container">
+
+        <div class="login-left">
+            <div class="overlay">
+
+                <h1>Hola Microempresarios 👋</h1>
+
+                <p>
+                    {% block texto_izquierda %}
+                    Bienvenido al sistema
+                    {% endblock %}
+                </p>
+
+            </div>
+        </div>
+
+        <div class="login-right">
+
+            <div class="login-box">
+                {% block contenido %}{% endblock %}
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

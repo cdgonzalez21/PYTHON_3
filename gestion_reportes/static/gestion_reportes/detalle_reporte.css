@@ -1,0 +1,53 @@
+body.body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 70px auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.title {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.item {
+    margin-bottom: 15px;
+}
+
+.item label {
+    font-weight: bold;
+    color: #555;
+}
+
+.item span {
+    color: #333;
+}
+
+.item p {
+    color: #333;
+    margin: 5px 0;
+}
+
+
+.activo {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.inactivo {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 5px 10px;
+    border-radius: 4px;
+}

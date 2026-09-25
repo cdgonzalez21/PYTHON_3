@@ -1,0 +1,73 @@
+{% extends 'gestion_usuarios/base.html' %}
+
+{% block titulo %}
+Empleados
+{% endblock %}
+
+{% block encabezado %}
+Gestión de Empleados
+{% endblock %}
+
+{% block subtitulo %}
+Listado general
+{% endblock %}
+
+{% block contenido %}
+
+<div>
+    <a href="{% url 'gestion_usuarios:crear_empleado' %}" class="btn">
+        ➕ Agregar empleado
+    </a>
+    <a href="{% url 'gestion_usuarios:index' %}" class="btn">
+        📦 Modulos
+    </a>
+</div>
+
+<br><br>
+
+<div class="card">
+
+{% if empleados %}
+
+<div class="table-wrapper">
+<table>
+    <tr>
+
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+
+    </tr>
+    {% for e in empleados %}
+    <tr>
+        <td>{{ e.nombre }}</td>
+
+        <td>{{ e.email }}</td>
+
+        <td>{{ e.rol.nombre }}</td>
+
+        <td>
+            <a class="btn"
+               href="{% url 'gestion_usuarios:editar_empleado' e.uuid_public %}">
+
+                Editar
+            </a>
+
+            <a class="btn"
+               href="{% url 'gestion_usuarios:eliminar_empleado' e.uuid_public %}">
+
+                Eliminar
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</div>
+{% else %}
+    <p>No hay empleados registrados</p>
+{% endif %}
+</div>
+
+{% endblock %}

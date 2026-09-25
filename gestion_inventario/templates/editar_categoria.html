@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block contenido %}
+<h1 class="page-title">Editar Categoria</h1>
+<p class="page-subtitle">Modifica los datos de la categoria</p>
+
+<div class="form-card">
+    <div class="form-card-header">
+        <h2>{{ categoria.nombre }}</h2>
+        <p>Actualiza los campos que desees cambiar</p>
+    </div>
+    <div class="form-card-body">
+        <form method="POST" action="{% url 'gestion_inventario:actualizar_categoria' categoria.id %}">
+            {% csrf_token %}
+
+            <div class="form-group" style="margin-bottom:16px;">
+                <label>Nombre de la categoria</label>
+                <input type="text" name="nombre" value="{{ categoria.nombre }}" class="form-control-inv">
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+                <label>Descripcion <span style="font-weight:400;color:#9ca3af;">(opcional)</span></label>
+                <input type="text" name="descripcion" value="{{ categoria.descripcion }}" class="form-control-inv">
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-inv btn-primary-inv">Actualizar categoria</button>
+                <a href="{% url 'gestion_inventario:lista_categorias' %}" class="btn-inv btn-secondary-inv">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

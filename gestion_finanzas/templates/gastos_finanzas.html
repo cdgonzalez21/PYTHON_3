@@ -1,0 +1,86 @@
+{% extends 'base_finanzas.html' %}
+
+{% block title %}
+Gastos
+{% endblock %}
+
+{% block header %}
+GASTOS
+{% endblock %}
+
+{% block content %}
+
+<button class="btn-volver"
+onclick="window.location.href='{% url 'gestion_finanzas:dashboard' %}'">
+
+    ← Volver
+
+</button>
+
+<h2>Listado de Gastos</h2>
+
+{% if data %}
+
+<table class="tabla">
+
+    <thead>
+
+        <tr>
+            <th>Descripción</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Eliminar</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+    {% for gasto in data %}
+
+    <tr>
+
+        <td>{{ gasto.descripcion }}</td>
+
+        <td>${{ gasto.monto }}</td>
+
+        <td>{{ gasto.fecha }}</td>
+
+        <td>{{ gasto.tipo.nombre }}</td>
+
+        <td>
+
+            <a class="btn-eliminar"
+               href="{% url 'gestion_finanzas:eliminar' gasto.id %}">
+
+               🗑️
+
+            </a>
+
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+{% else %}
+
+<p style="text-align:center; padding:20px;">
+    No hay gastos registrados
+</p>
+
+{% endif %}
+
+<button class="btn-agregar"
+onclick="window.location.href='{% url 'gestion_finanzas:crear' %}'">
+
+    + Agregar
+
+</button>
+
+{% endblock %}

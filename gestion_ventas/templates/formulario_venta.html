@@ -1,0 +1,58 @@
+{% extends 'ventas_layout.html' %}
+
+{% block renderizado %}
+
+<div class="form-container">
+
+    <div class="form-header">
+        <h1>🧾 Registrar Nueva Venta</h1>
+        <p>Completa los datos para registrar una nueva venta</p>
+    </div>
+
+    <form method="POST" action="{% url 'gestion_ventas:guardar_venta' %}">
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <div class="form-grupo">
+                <label>👤 Cliente</label>
+                {{ formulario.cliente_nombre }}
+            </div>
+
+            <div class="form-grupo">
+                <label>📅 Fecha</label>
+                {{ formulario.fecha }}
+            </div>
+
+            <div class="form-grupo">
+                <label>🕐 Hora</label>
+                {{ formulario.hora }}
+            </div>
+
+            <div class="form-grupo">
+                <label>📌 Estado</label>
+                {{ formulario.estado }}
+            </div>
+
+            <div class="form-grupo">
+                <label>📦 Producto</label>
+                {{ formulario.producto }}
+            </div>
+
+            <div class="form-grupo">
+                <label>🔢 Cantidad</label>
+                {{ formulario.cantidad }}
+            </div>
+
+        </div>
+
+        <div class="form-acciones">
+            <button type="submit" class="btn">✅ Guardar Venta</button>
+            <a href="{% url 'gestion_ventas:lista_ventas' %}" class="btn btn-secundario">← Volver a la lista</a>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

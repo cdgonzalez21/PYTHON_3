@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block contenido %}
+<h1 class="page-title">Agregar Producto</h1>
+<p class="page-subtitle">Completa los campos para registrar un nuevo producto</p>
+
+<div class="form-card">
+    <div class="form-card-header">
+        <h2>Nuevo Producto</h2>
+        <p>Todos los campos marcados son obligatorios</p>
+    </div>
+    <div class="form-card-body">
+        <form method="POST" action="{% url 'gestion_inventario:guardar_producto' %}">
+            {% csrf_token %}
+
+            <div class="form-grid-2">
+                <div class="form-group full">
+                    <label>Nombre del producto</label>
+                    {{ formulario.nombre }}
+                </div>
+                <div class="form-group">
+                    <label>Precio</label>
+                    {{ formulario.precio }}
+                </div>
+                <div class="form-group">
+                    <label>Stock</label>
+                    {{ formulario.stock }}
+                </div>
+                <div class="form-group">
+                    <label>Garantia (meses)</label>
+                    {{ formulario.garantia_meses }}
+                </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    {{ formulario.categoria }}
+                </div>
+                <div class="form-group full">
+                    <label>Bodega (opcional)</label>
+                    {{ formulario.bodega }}
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-inv btn-primary-inv">Guardar producto</button>
+                <a href="{% url 'gestion_inventario:lista_productos' %}" class="btn-inv btn-secondary-inv">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

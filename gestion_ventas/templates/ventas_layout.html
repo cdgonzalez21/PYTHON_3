@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestion de Ventas</title>
+    <link rel="stylesheet" href="{% static 'gestion_ventas/style.css' %}">
+</head>
+<body>
+
+    <div class="navbar">
+        <h2>🛒 Gestion de Ventas</h2>
+        <div class="navbar-links">
+            <a href="{% url 'gestion_usuarios:index' %}" class="nav-btn nav-btn-outline">← Menu principal</a>
+            <a href="{% url 'gestion_ventas:lista_ventas' %}" class="nav-btn">📋 Lista de Ventas</a>
+            <a href="{% url 'gestion_ventas:formulario_venta' %}" class="nav-btn nav-btn-success">+ Nueva Venta</a>
+        </div>
+    </div>
+
+    <div class="contenido">
+        {% block renderizado %}
+        {% endblock %}
+    </div>
+
+</body>
+</html>

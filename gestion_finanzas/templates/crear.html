@@ -1,0 +1,43 @@
+{% extends 'base_finanzas.html' %}
+
+{% load static %}
+
+{% block title %}
+Agregar Gasto
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'gestion_finanzas/crear.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="form-container">
+
+    <h2>Agregar Gasto</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.descripcion.label_tag }}
+        {{ form.descripcion }}
+
+        {{ form.monto.label_tag }}
+        {{ form.monto }}
+
+        {{ form.fecha.label_tag }}
+        {{ form.fecha }}
+
+        {{ form.tipo.label_tag }}
+        {{ form.tipo }}
+
+        <button type="submit" class="btn-guardar">Guardar</button>
+    </form>
+
+</div>
+
+{% endblock %}

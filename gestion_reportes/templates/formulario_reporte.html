@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Reporte</title>
+    <link rel="stylesheet" href="{% static 'gestion_reportes/css/styles.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1>Sistema de Reportes</h1>
+        <nav class="nav">
+            <a href="{% url 'gestion_reportes:home' %}">Inicio</a>
+            <a href="{% url 'gestion_reportes:formulario_reporte' %}">Crear Reporte</a>
+            <a href="{% url 'gestion_reportes:lista_reporte' %}">Lista de Reportes</a>
+            <a href="{% url 'gestion_reportes:generar_csv' %}">Generar CSV</a>
+            <a href="{% url 'gestion_usuarios:index' %}">Menu principal</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Crear Nuevo Reporte Personalizado</h1>
+        <p class="page-subtitle">Completa el formulario para crear un nuevo reporte</p>
+
+        <div class="form-container">
+            <form method="POST" action="{% url 'gestion_reportes:formulario_reporte' %}">
+                {% csrf_token %}
+
+                 <div class="form-group">
+                    <label for="nombre">Nombre del Reporte</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" maxlength="100" required placeholder="Ej: Reporte de Ventas Enero">
+                </div>
+
+                <div class="form-group">
+                    <label for="tipo">Tipo de Reporte</label>
+                    <select id="tipo" name="tipo" class="form-control" required>
+                        <option value="">Seleccione un tipo</option>
+                        <option value="productos">Productos</option>
+                        <option value="gastos">Gastos</option>
+                        <option value="usuarios">Usuarios</option>
+                        <option value="ventas">Ventas</option>
+                        <option value="detalle_ventas">Detalle de Ventas</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha_inicio">Fecha de Inicio</label>
+                    <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fecha_fin">Fecha de Fin</label>
+                    <input type="date" id="fecha_fin" name="fecha_fin" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripcion</label>
+                    <textarea id="descripcion" name="descripcion" class="form-control" rows="4" placeholder="Descripcion opcional del reporte"></textarea>
+                </div>
+
+                <div class="form-group">
+                </div>
+
+                <button type="submit" class="btn btn-success">Guardar Reporte</button>
+                
+            </form>
+        </div>
+
+        <div class="alert alert-info" style="margin-top: 20px;">
+            <strong>Nota:</strong> El tipo de reporte determina que datos se exportaran al generar el CSV. Las fechas de inicio y fin filtran los datos por ese rango.
+        </div>
+    </main>
+
+
+</body>
+</html>

@@ -1,0 +1,193 @@
+{% extends 'base_finanzas.html' %}
+
+{% block title %}
+Alertas Financieras
+{% endblock %}
+
+{% block header %}
+ALERTAS FINANCIERAS
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.alerta{
+    background:white;
+    padding:25px;
+    border-radius:16px;
+    margin-bottom:25px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    border-left:8px solid #e74c3c;
+}
+
+.alerta h2{
+    margin-top:0;
+    color:#e74c3c;
+}
+
+.lista{
+    margin-top:15px;
+}
+
+.item{
+    padding:12px;
+    background:#f9f9f9;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.vacio{
+    color:#00b894;
+    font-weight:bold;
+}
+
+</style>
+
+
+<!-- AGOTADOS -->
+
+<div class="alerta">
+
+    <h2>📦 Productos agotados</h2>
+
+    {% if agotados %}
+
+        <div class="lista">
+
+        {% for producto in agotados %}
+
+            <div class="item">
+
+                {{ producto.nombre }}
+
+            </div>
+
+        {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p class="vacio">
+
+            No hay productos agotados
+
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- STOCK BAJO -->
+
+<div class="alerta">
+
+    <h2>⚠️ Stock bajo</h2>
+
+    {% if stock_bajo %}
+
+        <div class="lista">
+
+        {% for producto in stock_bajo %}
+
+            <div class="item">
+
+                {{ producto.nombre }}
+                - Stock: {{ producto.stock }}
+
+            </div>
+
+        {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p class="vacio">
+
+            No hay productos con stock bajo
+
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- VENTAS PENDIENTES -->
+
+<div class="alerta">
+
+    <h2>🛒 Ventas pendientes</h2>
+
+    {% if ventas_pendientes %}
+
+        <div class="lista">
+
+        {% for venta in ventas_pendientes %}
+
+            <div class="item">
+
+                {{ venta.cliente_nombre }}
+                - ${{ venta.total }}
+
+            </div>
+
+        {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p class="vacio">
+
+            No hay ventas pendientes
+
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+
+<!-- GASTOS ALTOS -->
+
+<div class="alerta">
+
+    <h2>💸 Gastos altos</h2>
+
+    {% if gastos_altos %}
+
+        <div class="lista">
+
+        {% for gasto in gastos_altos %}
+
+            <div class="item">
+
+                {{ gasto.descripcion }}
+                - ${{ gasto.monto }}
+
+            </div>
+
+        {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p class="vacio">
+
+            No hay gastos altos registrados
+
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

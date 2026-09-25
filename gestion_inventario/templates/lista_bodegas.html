@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block contenido %}
+<h1 class="page-title">Bodegas</h1>
+<p class="page-subtitle">Puntos de almacenamiento de productos</p>
+
+<div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+    <a href="{% url 'gestion_inventario:formulario_bodega' %}" class="btn-inv btn-success-inv">+ Agregar bodega</a>
+</div>
+
+<div class="list-card">
+    <div class="list-card-header">
+        <h2>Lista de Bodegas</h2>
+    </div>
+    {% for bodega in bodegas %}
+    <div class="list-item">
+        <div>
+            <div class="list-item-name">{{ bodega.nombre }}</div>
+            <div class="list-item-sub">{{ bodega.ubicacion }}</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+            <a href="{% url 'gestion_inventario:editar_bodega' bodega.id %}" class="btn-inv btn-warning-inv btn-sm-inv">Editar</a>
+            <a href="{% url 'gestion_inventario:eliminar_bodega' bodega.id %}" class="btn-inv btn-danger-inv btn-sm-inv" onclick="return confirm('¿Eliminar esta bodega?')">Eliminar</a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="list-empty">No hay bodegas registradas</div>
+    {% endfor %}
+</div>
+{% endblock %}

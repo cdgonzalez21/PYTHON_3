@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Reportes</title>
+    <link rel="stylesheet" href="{% static 'gestion_reportes/css/styles.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1>Sistema de Reportes</h1>
+        <nav class="nav">
+            <a href="{% url 'gestion_reportes:home' %}">Inicio</a>
+            <a href="{% url 'gestion_reportes:formulario_reporte' %}">Crear Reporte</a>
+            <a href="{% url 'gestion_reportes:lista_reporte' %}">Lista de Reportes</a>
+            <a href="{% url 'gestion_reportes:generar_csv' %}">Generar CSV</a>
+            <a href="{% url 'gestion_usuarios:index' %}">Menu principal</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Lista de Reportes</h1>
+        <p class="page-subtitle">Todos los reportes registrados en el sistema</p>
+
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Fecha Generacion</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reporte in reportes %}
+                    <tr>
+                        <td>{{ reporte.id }}</td>
+                        <td>{{ reporte.nombre }}</td>
+                        <td>{{ reporte.get_tipo_display }}</td>
+                        <td>{{ reporte.fecha_inicio }}</td>
+                        <td>{{ reporte.fecha_fin }}</td>
+                        <td>{{ reporte.fecha_generacion }}</td>
+                        <td>
+                            {% if reporte.activo %}
+                                <span class="badge badge-success">Activo</span>
+                            {% else %}
+                                <span class="badge badge-danger">Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'gestion_reportes:detalle_reporte' reporte.id %}" class="btn btn-primary btn-sm">Ver</a>
+                            <a href="{% url 'gestion_reportes:toggle_activo' reporte.id %}" class="btn {% if reporte.activo %}btn-warning{% else %}btn-success{% endif %} btn-sm">{% if reporte.activo %}Desactivar{% else %}Activar{% endif %}</a>
+                            <a href="{% url 'gestion_reportes:eliminar_reporte' reporte.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este reporte?');"> Eliminar</a>
+                        </td>
+                    </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" style="text-align: center;">No hay reportes registrados</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <a href="{% url 'gestion_reportes:formulario_reporte' %}" class="btn btn-success">Crear Nuevo Reporte</a>
+        </div>
+    </main>
+
+
+</body>
+</html>

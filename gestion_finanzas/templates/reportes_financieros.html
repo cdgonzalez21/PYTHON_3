@@ -1,0 +1,145 @@
+{% extends 'base_finanzas.html' %}
+
+{% block title %}
+Reportes Financieros
+{% endblock %}
+
+{% block header %}
+REPORTES FINANCIEROS
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+.filtros{
+    background:white;
+    padding:20px;
+    border-radius:14px;
+    margin-bottom:25px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+
+    display:flex;
+    gap:15px;
+    align-items:end;
+    flex-wrap:wrap;
+}
+
+.input{
+    display:flex;
+    flex-direction:column;
+}
+
+.input label{
+    margin-bottom:6px;
+    color:#555;
+}
+
+.input input{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+.btn-filtrar{
+    background:#4f46e5;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+
+.card h3{
+    margin:0;
+    color:#555;
+}
+
+.card p{
+    font-size:28px;
+    color:#4f46e5;
+    font-weight:bold;
+}
+
+</style>
+
+
+
+
+<form method="GET" class="filtros">
+
+    <div class="input">
+
+        <label>Fecha inicio</label>
+
+        <input type="date" name="inicio">
+
+    </div>
+
+
+    <div class="input">
+
+        <label>Fecha fin</label>
+
+        <input type="date" name="fin">
+
+    </div>
+
+
+    <button class="btn-filtrar" type="submit">
+
+        Filtrar
+
+    </button>
+
+</form>
+
+
+
+
+
+<div class="cards">
+
+    <div class="card">
+
+        <h3>💰 Total ventas</h3>
+
+        <p>${{ total_ventas }}</p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>💸 Total gastos</h3>
+
+        <p>${{ total_gastos }}</p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>📈 Balance</h3>
+
+        <p>${{ balance }}</p>
+
+    </div>
+
+</div>
+
+{% endblock %}

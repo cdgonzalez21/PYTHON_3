@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de Reportes - Inicio</title>
+    <link rel="stylesheet" href="{% static 'gestion_reportes/css/styles.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1>Sistema de Reportes</h1>
+        <nav class="nav">
+            <a href="{% url 'gestion_reportes:home' %}">Inicio</a>
+            <a href="{% url 'gestion_reportes:formulario_reporte' %}">Crear Reporte</a>
+            <a href="{% url 'gestion_reportes:lista_reporte' %}">Lista de Reportes</a>
+            <a href="{% url 'gestion_reportes:generar_csv' %}">Generar CSV</a>
+            <a href="{% url 'gestion_usuarios:index' %}">Menu principal</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Bienvenido al Sistema de Reportes</h1>
+        <p class="page-subtitle">Gestiona y genera reportes de tu negocio de manera facil y rapida</p>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">📋</div>
+                <h3>Lista de Reportes</h3>
+                <p>Visualiza todos los reportes creados en el sistema con su informacion detallada.</p>
+                <a href="{% url 'gestion_reportes:lista_reporte' %}" class="btn btn-primary">Ver Reportes</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">➕</div>
+                <h3>Crear Reporte</h3>
+                <p>Crea un nuevo reporte con nombre, fechas, descripcion y estado.</p>
+                <a href="{% url 'gestion_reportes:formulario_reporte' %}" class="btn btn-success">Nuevo Reporte</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Generar CSV</h3>
+                <p>Exporta los datos del sistema en archivos CSV para analisis externos.</p>
+                <a href="{% url 'gestion_reportes:generar_csv' %}" class="btn btn-primary">Generar CSV</a>
+            </div>
+        </div>
+    </main>
+
+
+</body>
+</html>

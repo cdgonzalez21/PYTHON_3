@@ -1,0 +1,118 @@
+{% extends 'gestion_usuarios/base.html' %}
+
+{% block titulo %}
+Empleado
+{% endblock %}
+
+{% block encabezado %}
+Gestión de Empleados
+{% endblock %}
+
+{% block subtitulo %}
+Formulario de registro
+{% endblock %}
+
+{% block contenido %}
+
+<div class="form-box">
+
+    <div class="form-actions">
+
+        <a class="btn"
+           href="{% url 'gestion_usuarios:listar_empleados' %}">
+
+            ←
+
+        </a>
+
+    </div>
+
+    <h2 class="form-title">
+
+        {% if editar %}
+            Editar Empleado
+        {% else %}
+            Registrar Empleado
+        {% endif %}
+
+    </h2>
+
+    {% if form.errors %}
+
+        <div class="alerta">
+            {{ form.errors }}
+        </div>
+
+    {% endif %}
+
+    <form method="POST" class="form-group">
+
+        {% csrf_token %}
+
+        <div>
+
+            <label class="form-label">
+                Nombre Completo
+            </label>
+
+            {{ form.nombre }}
+
+        </div>
+
+        <div>
+
+            <label class="form-label">
+                Email
+            </label>
+
+            {{ form.email }}
+
+        </div>
+
+        <div>
+
+            <label class="form-label">
+                Contraseña
+            </label>
+
+            {{ form.password }}
+
+        </div>
+
+        <div>
+
+            <label class="form-label">
+                Fecha de nacimiento
+            </label>
+
+            {{ form.fecha_nacimiento }}
+
+        </div>
+
+        <div>
+
+            <label class="form-label">
+                Módulos asignados
+            </label>
+
+            <div class="modulos-box">
+                {{ form.modulos }}
+            </div>
+
+        </div>
+
+        <button class="btn form-submit" type="submit">
+
+            {% if editar %}
+                Actualizar
+            {% else %}
+                Registrar
+            {% endif %}
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

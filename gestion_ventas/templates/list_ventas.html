@@ -1,0 +1,142 @@
+{% extends 'ventas_layout.html' %}
+
+{% block renderizado %}
+
+<h1>{{ titulo }}</h1>
+<hr>
+
+<!-- Estadisticas superiores -->
+<div class="stats-grid">
+    <div class="stat-card stat-azul">
+        <div class="stat-icon stat-icon-azul">💲</div>
+        <div class="stat-info">
+            <p class="stat-numero">${{ total_vendido }}</p>
+            <p class="stat-label">TOTAL VENDIDO</p>
+        </div>
+    </div>
+    <div class="stat-card stat-morado">
+        <div class="stat-icon stat-icon-morado">📈</div>
+        <div class="stat-info">
+            <p class="stat-numero">{{ total_ventas }}</p>
+            <p class="stat-label">TOTAL VENTAS</p>
+        </div>
+    </div>
+    <div class="stat-card stat-verde">
+        <div class="stat-icon stat-icon-verde">✔</div>
+        <div class="stat-info">
+            <p class="stat-numero">{{ ventas_pagadas }}</p>
+            <p class="stat-label">PAGADAS</p>
+        </div>
+    </div>
+    <div class="stat-card stat-amarillo">
+        <div class="stat-icon stat-icon-amarillo">⏰</div>
+        <div class="stat-info">
+            <p class="stat-numero">{{ ventas_pendientes }}</p>
+            <p class="stat-label">PENDIENTES</p>
+        </div>
+    </div>
+    <div class="stat-card stat-rojo">
+        <div class="stat-icon stat-icon-rojo">✘</div>
+        <div class="stat-info">
+            <p class="stat-numero">{{ ventas_canceladas }}</p>
+            <p class="stat-label">CANCELADAS</p>
+        </div>
+    </div>
+</div>
+
+<!-- Filtros y busqueda -->
+<form method="GET" action="{% url 'gestion_ventas:lista_ventas' %}" class="filtros-form">
+    <input type="text" name="buscar" placeholder="Buscar por cliente, vendedor..." value="{{ buscar }}">
+    <input type="date" name="fecha_desde" value="{{ fecha_desde }}" title="Fecha desde">
+    <span class="filtros-sep">-</span>
+    <input type="date" name="fecha_hasta" value="{{ fecha_hasta }}" title="Fecha hasta">
+    <select name="estado">
+        <option value="">Todos los estados</option>
+        <option value="pendiente" {% if estado_filtro == "pendiente" %}selected{% endif %}>Pendiente</option>
+        <option value="pagada" {% if estado_filtro == "pagada" %}selected{% endif %}>Pagada</option>
+        <option value="cancelada" {% if estado_filtro == "cancelada" %}selected{% endif %}>Cancelada</option>
+    </select>
+    <button type="submit" class="btn btn-filtro">Buscar</button>
+    <a href="{% url 'gestion_ventas:lista_ventas' %}" class="btn btn-secundario btn-filtro">Limpiar</a>
+</form>
+
+<!-- Resumen del periodo -->
+<div class="resumen-periodo">
+    <h3 class="resumen-titulo">Resumen del periodo</h3>
+    <div class="resumen-grid">
+        <div class="resumen-card resumen-azul">
+            <span class="resumen-icon">📅</span>
+            <div>
+                <p class="resumen-label">Ventas del día</p>
+                <p class="resumen-valor">${{ ventas_hoy }}</p>
+            </div>
+        </div>
+        <div class="resumen-card resumen-morado">
+            <span class="resumen-icon">📄</span>
+            <div>
+                <p class="resumen-label">Ventas del mes</p>
+                <p class="resumen-valor">${{ ventas_mes }}</p>
+            </div>
+        </div>
+        <div class="resumen-card resumen-rosa">
+            <span class="resumen-icon">👥</span>
+            <div>
+                <p class="resumen-label">Total clientes</p>
+                <p class="resumen-valor">{{ total_clientes }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Barra de acciones -->
+<div class="acciones-bar">
+    <a href="{% url 'gestion_ventas:formulario_venta' %}" class="btn btn-accion btn-nueva">+ Registrar nueva venta</a>
+    <a href="{% url 'gestion_ventas:exportar_pdf' %}" class="btn btn-accion btn-pdf">📄 Exportar PDF</a>
+</div>
+
+{% if hay_ventas %}
+    {% for venta in ventas %}
+        <div class="venta-card">
+            <div class="venta-header">
+                <span class="venta-id">#{{ venta.id }}</span>
+                <span class="venta-cliente">{{ venta.cliente_nombre }}</span>
+                <span>
+                    {% if venta.estado == "pagada" %}
+                        <span class="pagado">✔ Pagada</span>
+                    {% elif venta.estado == "cancelada" %}
+                        <span class="cancelada">✘ Cancelada</span>
+                    {% else %}
+                        <span class="pendiente">⏳ Pendiente</span>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="venta-info">
+                <p><b>Fecha:</b> {{ venta.fecha }}</p>
+                <p><b>Total:</b> ${{ venta.total }}</p>
+                <p><b>Registrada:</b> {{ venta.fecha_creacion }}</p>
+            </div>
+
+            <!-- Cambiar estado rapido -->
+            <form method="POST" action="{% url 'gestion_ventas:cambiar_estado' venta.id %}" class="form-estado">
+                {% csrf_token %}
+                <select name="estado" class="select-estado">
+                    <option value="pendiente" {% if venta.estado == "pendiente" %}selected{% endif %}>Pendiente</option>
+                    <option value="pagada" {% if venta.estado == "pagada" %}selected{% endif %}>Pagada</option>
+                    <option value="cancelada" {% if venta.estado == "cancelada" %}selected{% endif %}>Cancelada</option>
+                </select>
+                <button type="submit" class="btn-estado">Cambiar estado</button>
+            </form>
+
+            <div class="venta-acciones">
+                <a href="{% url 'gestion_ventas:detalle_venta' venta.id %}" class="btn-secondary">Ver detalle</a>
+                <a href="{% url 'gestion_ventas:editar_venta' venta.id %}" class="btn-secundario">Editar</a>
+                <a href="{% url 'gestion_ventas:eliminar_venta' venta.id %}" class="btn-danger" onclick="return confirm('¿Seguro que quieres eliminar esta venta?')">Eliminar</a>
+            </div>
+        </div>
+    {% endfor %}
+
+{% else %}
+    <p class="mensaje-vacio">No hay ventas que coincidan con la busqueda.</p>
+{% endif %}
+
+{% endblock %}

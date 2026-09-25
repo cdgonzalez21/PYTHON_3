@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Reportes CSV</title>
+    <link rel="stylesheet" href="{% static 'gestion_reportes/css/styles.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1>Sistema de Reportes</h1>
+        <nav class="nav">
+            <a href="{% url 'gestion_reportes:home' %}">Inicio</a>
+            <a href="{% url 'gestion_reportes:formulario_reporte' %}">Crear Reporte</a>
+            <a href="{% url 'gestion_reportes:lista_reporte' %}">Lista de Reportes</a>
+            <a href="{% url 'gestion_reportes:generar_csv' %}">Generar CSV</a>
+            <a href="{% url 'gestion_usuarios:index' %}">Menu principal</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Generar Reportes CSV</h1>
+        <p class="page-subtitle">Descarga los reportes activos en formato CSV</p>
+
+        <h2 style="margin-top: 30px; color: #333;">Reportes Personalizados</h2>
+        <p style="color: #666; margin-bottom: 20px;">Reportes creados por ti con filtros de fecha personalizados</p>
+
+        {% if reportes %}
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Descripcion</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reporte in reportes %}
+                    <tr>
+                        <td>{{ reporte.nombre }}</td>
+                        <td>{{ reporte.get_tipo_display }}</td>
+                        <td>{{ reporte.fecha_inicio }}</td>
+                        <td>{{ reporte.fecha_fin }}</td>
+                        <td>{{ reporte.descripcion|default:"Sin descripcion" }}</td>
+                        <td>
+                            <a href="{% url 'gestion_reportes:descargar_csv' reporte.id %}" class="btn btn-success btn-sm">Descargar CSV</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-warning">
+            No hay reportes activos. <a href="{% url 'gestion_reportes:formulario_reporte' %}">Crea un nuevo reporte</a> para poder descargarlo.
+        </div>
+        {% endif %}
+
+        <h2 style="margin-top: 40px; color: #333;">Reportes Rapidos</h2>
+        <p style="color: #666; margin-bottom: 20px;">Exporta todos los datos sin filtros</p>
+
+        <div class="cards-grid">
+            <div class="card">
+                <h3>Productos</h3>
+                <p>Exporta la lista completa de productos con stock, precio y categoria.</p>
+                <a href="{% url 'gestion_reportes:reporte_productos' %}" class="btn btn-primary">Descargar CSV</a>
+            </div>
+
+            <div class="card">
+                <h3>Gastos</h3>
+                <p>Exporta todos los gastos registrados con monto, fecha y tipo.</p>
+                <a href="{% url 'gestion_reportes:reporte_gastos' %}" class="btn btn-primary">Descargar CSV</a>
+            </div>
+
+            <div class="card">
+                <h3>Usuarios</h3>
+                <p>Exporta la lista de usuarios con nombre, email y rol.</p>
+                <a href="{% url 'gestion_reportes:reporte_usuarios' %}" class="btn btn-primary">Descargar CSV</a>
+            </div>
+
+            <div class="card">
+                <h3>Ventas</h3>
+                <p>Exporta todas las ventas realizadas con fecha y total.</p>
+                <a href="{% url 'gestion_reportes:reporte_ventas' %}" class="btn btn-primary">Descargar CSV</a>
+            </div>
+
+            <div class="card">
+                <h3>Detalle de Ventas</h3>
+                <p>Exporta el detalle de cada venta con producto y subtotal.</p>
+                <a href="{% url 'gestion_reportes:reporte_detalle_ventas' %}" class="btn btn-primary">Descargar CSV</a>
+            </div>
+        </div>
+
+        <div class="alert alert-info" style="margin-top: 30px;">
+            <strong>Nota:</strong> Los archivos CSV se descargan automaticamente y pueden abrirse con Excel, Google Sheets o cualquier editor de hojas de calculo.
+        </div>
+    </main>
+
+
+</body>
+</html>

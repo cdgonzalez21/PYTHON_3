@@ -1,0 +1,77 @@
+{% extends 'ventas_layout.html' %}
+
+{% block renderizado %}
+
+<div class="form-container">
+
+    <div class="form-header">
+        <h1>{{ titulo }}</h1>
+        <p>Modifica los datos de la venta y guarda los cambios.</p>
+    </div>
+
+    <form method="POST" action="{% url 'gestion_ventas:editar_venta' venta.id %}">
+        {% csrf_token %}
+
+        <div class="form-grid">
+
+            <div class="form-grupo form-grupo-full">
+                <label>👤 Cliente</label>
+                <input type="text" name="cliente_nombre" value="{{ venta.cliente_nombre }}" placeholder="Nombre del cliente" required>
+            </div>
+
+            <div class="form-grupo">
+                <label>📅 Fecha</label>
+                <input type="date" name="fecha" value="{{ venta.fecha }}" required>
+            </div>
+
+            <div class="form-grupo">
+                <label>🕐 Hora</label>
+                <input type="time" name="hora" value="{{ venta.hora }}" required>
+            </div>
+
+            <div class="form-grupo form-grupo-full">
+                <label>📋 Estado</label>
+                <select name="estado">
+                    {% for valor, nombre in estados %}
+                        <option value="{{ valor }}" {% if venta.estado == valor %}selected{% endif %}>{{ nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        </div>
+
+        <!-- Info adicional de la venta -->
+        <div class="venta-info-extra">
+            <div class="info-item">
+                <span class="info-icon">💰</span>
+                <div>
+                    <p class="info-label">Total de la venta</p>
+                    <p class="info-valor">${{ venta.total }}</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">🗓️</span>
+                <div>
+                    <p class="info-label">Fecha de registro</p>
+                    <p class="info-valor">{{ venta.fecha_creacion }}</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">#️⃣</span>
+                <div>
+                    <p class="info-label">ID de venta</p>
+                    <p class="info-valor">#{{ venta.id }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-acciones">
+            <button type="submit" class="btn">💾 Guardar cambios</button>
+            <a href="{% url 'gestion_ventas:lista_ventas' %}" class="btn btn-secundario">✖ Cancelar</a>
+            <a href="{% url 'gestion_ventas:detalle_venta' venta.id %}" class="btn btn-secondary">👁 Ver detalle</a>
+        </div>
+
+    </form>
+</div>
+
+{% endblock %}

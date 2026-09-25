@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block contenido %}
+<div style="margin-bottom:20px;">
+    <a href="{% url 'gestion_inventario:lista_productos' %}" class="btn-inv btn-secondary-inv">← Volver a la lista</a>
+</div>
+
+<div class="detail-card">
+    <div class="detail-card-header">
+        <h2>{{ producto.nombre }}</h2>
+    </div>
+
+    <div class="detail-row">
+        <span class="detail-label">Precio</span>
+        <span class="detail-value">${{ producto.precio }}</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Stock</span>
+        <span class="detail-value">
+            {% if producto.stock > 0 %}
+                <span class="badge-stock-ok">{{ producto.stock }} unidades</span>
+            {% else %}
+                <span class="badge-stock-low">Agotado</span>
+            {% endif %}
+        </span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Garantia</span>
+        <span class="detail-value">
+            {% if producto.garantia_meses > 0 %}
+                {{ producto.garantia_meses }} meses
+            {% else %}
+                Sin garantia
+            {% endif %}
+        </span>
+    </div>
+    {% if producto.peso_kg %}
+    <div class="detail-row">
+        <span class="detail-label">Peso</span>
+        <span class="detail-value">{{ producto.peso_kg }} kg</span>
+    </div>
+    {% endif %}
+    <div class="detail-row">
+        <span class="detail-label">Categoria</span>
+        <span class="detail-value">{{ producto.categoria }}</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Bodega</span>
+        <span class="detail-value">{{ producto.bodega|default:"Sin bodega" }}</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Fecha de creacion</span>
+        <span class="detail-value">{{ producto.fecha_creacion|date:"d/m/Y H:i" }}</span>
+    </div>
+
+    <div style="padding:20px 24px;display:flex;gap:10px;">
+        <a href="{% url 'gestion_inventario:editar_producto' producto.id %}" class="btn-inv btn-warning-inv">Editar producto</a>
+        <a href="{% url 'gestion_inventario:eliminar_producto' producto.id %}" class="btn-inv btn-danger-inv" onclick="return confirm('¿Eliminar este producto?')">Eliminar</a>
+    </div>
+</div>
+{% endblock %}

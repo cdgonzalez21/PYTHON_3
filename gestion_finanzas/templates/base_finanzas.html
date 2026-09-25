@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>
+    {% block title %}
+        Finanzas
+    {% endblock %}
+</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f5f6fa;
+}
+
+.barra-superior{
+    background:#4f46e5;
+    color:white;
+    padding:20px;
+}
+
+.sidebar{
+    width:230px;
+    height:100vh;
+    background:#4f46e5;
+    position:fixed;
+    left:0;
+    top:0;
+    padding-top:20px;
+}
+
+.sidebar ul{
+    list-style:none;
+    padding:0;
+}
+
+.sidebar li{
+    padding:14px 20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    color:#fbfafa;
+}
+
+.sidebar li:hover{
+    background:#4338ca;
+}
+
+.sidebar li.activo{
+    background:#4338ca;
+    border-left:4px solid #00c896;
+}
+
+.icon{
+    width:24px;
+    height:24px;
+    background:#eaeaea;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+}
+
+.content{
+    margin-left:230px;
+    padding:30px;
+}
+
+.titulo{
+    text-align:center;
+    color:white;
+    margin:0;
+}
+
+.tabla{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.tabla th{
+    background:#4f46e5;
+    color:white;
+    padding:12px;
+    text-align:left;
+}
+
+.tabla td{
+    padding:12px;
+    border-bottom:1px solid #aea7a7;
+}
+
+.tabla tr:hover{
+    background:#f9f9f9;
+}
+
+a{
+    text-decoration:none;
+    color:white;
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.btn-volver{
+    background:#4f46e5;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-bottom:20px;
+    font-size:14px;
+}
+
+.btn-volver:hover{
+    background:#4338ca;
+}
+
+.btn-agregar{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    background:#00c896;
+    color:white;
+    border:none;
+    padding:14px 18px;
+    border-radius:50px;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.btn-agregar:hover{
+    background:#00a87d;
+}
+
+.btn-eliminar{
+    background:#e74c3c;
+    color:white;
+    padding:8px 12px;
+    border-radius:8px;
+    text-decoration:none;
+    display:inline-block;
+    width:40px;
+    text-align:center;
+}
+
+.btn-eliminar:hover{
+    background:#c0392b;
+}
+
+</style>
+
+{% block extra_css %}
+{% endblock %}
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <ul>
+
+        <li>
+            <a href="{% url 'gestion_finanzas:dashboard' %}">
+                <div class="icon">🏠</div>
+               Estadisticas
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'gestion_finanzas:gasto' %}">
+                <div class="icon">📚</div>
+                Gastos
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'gestion_finanzas:ingresos' %}">
+                <div class="icon">📈</div>
+                Ingresos
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'gestion_finanzas:inventario_financiero' %}">
+                <div class="icon">📦</div>
+                Inventario
+            </a>
+       </li>
+       <li>
+            <a href="{% url 'gestion_finanzas:reportes' %}">
+                <div class="icon">📊</div>
+                Reportes
+            </a>
+       </li>
+        <li>
+            <a href="{% url 'gestion_finanzas:alertas' %}">
+                <div class="icon">⚠️</div>
+                Alertas
+            </a>
+       </li>
+       
+        <li>
+            <a href="/usuarios/index/"
+               class="text-white-50 text-decoration-none"
+               style="font-size:12px; display:block; text-align:right;">
+
+               ← Menu principal
+            </a>
+        </li>
+
+    </ul>
+
+</div>
+
+<header class="barra-superior">
+
+    <h1 class="titulo">
+
+        {% block header %}
+            Finanzas
+        {% endblock %}
+
+    </h1>
+
+</header>
+
+<div class="content">
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+{% block scripts %}
+{% endblock %}
+
+</body>
+</html>

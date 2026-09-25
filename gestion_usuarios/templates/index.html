@@ -1,0 +1,39 @@
+{% extends "gestion_usuarios/base.html" %}
+
+{% block contenido %}
+
+<div class="dashboard-grid">
+
+    {% if "Inventario" in modulos %}
+    <div class="dashboard-card" onclick="location.href='/inventario/'">
+        <h3>📦 Inventario</h3>
+    </div>
+    {% endif %}
+
+    {% if "Reportes" in modulos %}
+    <div class="dashboard-card" onclick="location.href='/reportes/'">
+        <h3>📊 Reportes</h3>
+    </div>
+    {% endif %}
+
+    {% if "Ventas" in modulos %}
+    <div class="dashboard-card" onclick="location.href='/ventas/'">
+        <h3>🛒 Ventas</h3>
+    </div>
+    {% endif %}
+
+    {% if "Finanzas" in modulos %}
+    <div class="dashboard-card" onclick="location.href='/finanzas/'">
+        <h3>💰 Finanzas</h3>
+    </div>
+    {% endif %}
+
+    {% if "Gestión de usuarios" in modulos %}
+    <div class="dashboard-card" onclick="location.href='/usuarios/empleados/'">
+        <h3>👥 Gestión de usuarios</h3>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block contenido %}
+<h1 class="page-title">Productos</h1>
+<p class="page-subtitle">Listado de todos los productos en inventario</p>
+
+<div class="filter-bar">
+    <label>Filtrar por categoria:</label>
+    <form method="GET" action="{% url 'gestion_inventario:lista_productos' %}" style="display:flex;gap:10px;flex:1;">
+        <select name="categoria" class="form-control-inv" onchange="this.form.submit()">
+            <option value="">Todas las categorias</option>
+            {% for categoria in categorias %}
+                <option value="{{ categoria.id }}"
+                    {% if categoria.id == categoria_seleccionada %}selected{% endif %}>
+                    {{ categoria.nombre }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+    <a href="{% url 'gestion_inventario:formulario_producto' %}" class="btn-inv btn-success-inv">+ Agregar producto</a>
+</div>
+
+<div class="data-card">
+    <div class="data-card-header">
+        <h2>Lista de Productos</h2>
+    </div>
+    <div class="data-card-body">
+        <table class="inv-table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Categoria</th>
+                    <th>Bodega</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td style="font-weight:600;color:#1e1b4b;">{{ producto.nombre }}</td>
+                    <td>${{ producto.precio }}</td>
+                    <td>
+                        {% if producto.stock > 0 %}
+                            <span class="badge-stock-ok">{{ producto.stock }}</span>
+                        {% else %}
+                            <span class="badge-stock-low">Agotado</span>
+                        {% endif %}
+                    </td>
+                    <td style="color:#6b7280;">{{ producto.categoria }}</td>
+                    <td style="color:#6b7280;">{{ producto.bodega|default:"—" }}</td>
+                    <td>
+                        <div style="display:flex;gap:6px;">
+                            <a href="{% url 'gestion_inventario:producto_detalle' producto.id %}" class="btn-inv btn-secondary-inv btn-sm-inv">Ver</a>
+                            <a href="{% url 'gestion_inventario:editar_producto' producto.id %}" class="btn-inv btn-warning-inv btn-sm-inv">Editar</a>
+                            <a href="{% url 'gestion_inventario:eliminar_producto' producto.id %}" class="btn-inv btn-danger-inv btn-sm-inv" onclick="return confirm('¿Eliminar este producto?')">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align:center;padding:40px;color:#9ca3af;">No hay productos registrados</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

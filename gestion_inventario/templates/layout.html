@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Inventario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #f3f4f6; font-family: 'Segoe UI', sans-serif; margin: 0; min-height: 100vh; }
+
+        /* ── Navbar ── */
+        .navbar-inv {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            padding: 0 28px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(79,70,229,.35);
+        }
+        .navbar-inv .brand { color: #fff; font-size: 18px; font-weight: 700; letter-spacing: .3px; text-decoration: none; }
+        .navbar-inv .nav-links { display: flex; align-items: center; gap: 8px; }
+        .nav-pill {
+            color: rgba(255,255,255,.85);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background .18s, color .18s;
+        }
+        .nav-pill:hover { background: rgba(255,255,255,.18); color: #fff; }
+        .nav-pill-products { background: rgba(255,255,255,.15); color: #fff; }
+        .nav-pill-products:hover { background: rgba(255,255,255,.28); }
+        .nav-pill-cats { background: rgba(16,185,129,.25); color: #6ee7b7; }
+        .nav-pill-cats:hover { background: rgba(16,185,129,.4); color: #fff; }
+        .nav-pill-bodegas { background: rgba(245,158,11,.2); color: #fde68a; }
+        .nav-pill-bodegas:hover { background: rgba(245,158,11,.35); color: #fff; }
+        .nav-pill-home { background: rgba(255,255,255,.1); color: rgba(255,255,255,.75); font-size: 12px; border: 1px solid rgba(255,255,255,.2); }
+        .nav-pill-home:hover { background: rgba(255,255,255,.2); color: #fff; }
+
+        /* ── Page container ── */
+        .page-wrap { max-width: 960px; margin: 32px auto; padding: 0 16px; }
+        .page-title { font-size: 24px; font-weight: 700; color: #1e1b4b; margin-bottom: 4px; }
+        .page-subtitle { font-size: 14px; color: #6b7280; margin-bottom: 24px; }
+
+        /* ── Stat cards ── */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+        .stat-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 1px 4px rgba(0,0,0,.07);
+        }
+        .stat-card.indigo { border-left: 5px solid #4f46e5; }
+        .stat-card.green  { border-left: 5px solid #10b981; }
+        .stat-card.amber  { border-left: 5px solid #f59e0b; }
+        .stat-card.red    { border-left: 5px solid #ef4444; }
+        .stat-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+        .stat-icon.indigo { background: #ede9fe; }
+        .stat-icon.green  { background: #d1fae5; }
+        .stat-icon.amber  { background: #fef3c7; }
+        .stat-icon.red    { background: #fee2e2; }
+        .stat-info .stat-value { font-size: 26px; font-weight: 700; color: #111827; line-height: 1; }
+        .stat-info .stat-label { font-size: 12px; color: #6b7280; margin-top: 2px; }
+
+        /* ── Action buttons (home page) ── */
+        .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+        .action-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px 24px;
+            text-decoration: none;
+            color: #374151;
+            font-weight: 600;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 1px 4px rgba(0,0,0,.07);
+            border: 1px solid #e5e7eb;
+            transition: box-shadow .18s, transform .12s;
+        }
+        .action-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.12); transform: translateY(-2px); color: #374151; }
+        .action-card .ac-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .ac-icon.indigo { background: #ede9fe; }
+        .ac-icon.green  { background: #d1fae5; }
+        .ac-icon.amber  { background: #fef3c7; }
+
+        /* ── Data table ── */
+        .data-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.07); overflow: hidden; margin-bottom: 24px; }
+        .data-card-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .data-card-header h2 { color: #fff; font-size: 16px; font-weight: 600; margin: 0; }
+        .data-card-body { padding: 0; }
+        table.inv-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        table.inv-table thead th {
+            background: #f5f3ff;
+            color: #4f46e5;
+            font-weight: 600;
+            padding: 11px 14px;
+            text-align: left;
+            border-bottom: 2px solid #e0e7ff;
+            font-size: 13px;
+        }
+        table.inv-table tbody tr { border-bottom: 1px solid #f3f4f6; transition: background .12s; }
+        table.inv-table tbody tr:hover { background: #faf9ff; }
+        table.inv-table tbody td { padding: 11px 14px; color: #374151; }
+        .badge-stock-ok  { background: #d1fae5; color: #065f46; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .badge-stock-low { background: #fee2e2; color: #991b1b; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+
+        /* ── List card (categorias / bodegas) ── */
+        .list-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.07); overflow: hidden; margin-bottom: 24px; }
+        .list-card-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            padding: 14px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .list-card-header h2 { color: #fff; font-size: 16px; font-weight: 600; margin: 0; }
+        .list-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 13px 20px; border-bottom: 1px solid #f3f4f6; transition: background .12s;
+        }
+        .list-item:last-child { border-bottom: none; }
+        .list-item:hover { background: #faf9ff; }
+        .list-item-name { font-weight: 600; color: #1e1b4b; font-size: 14px; }
+        .list-item-sub  { font-size: 12px; color: #6b7280; margin-top: 1px; }
+        .list-empty { padding: 40px; text-align: center; color: #9ca3af; font-size: 14px; }
+
+        /* ── Detail card ── */
+        .detail-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.07); border-top: 5px solid #4f46e5; overflow: hidden; margin-bottom: 24px; }
+        .detail-card-header { padding: 20px 24px; border-bottom: 1px solid #f3f4f6; }
+        .detail-card-header h2 { font-size: 20px; font-weight: 700; color: #1e1b4b; margin: 0; }
+        .detail-row { display: flex; padding: 12px 24px; border-bottom: 1px solid #f9f9f9; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { width: 180px; flex-shrink: 0; font-size: 13px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .4px; padding-top: 1px; }
+        .detail-value { font-size: 15px; color: #111827; }
+
+        /* ── Form card ── */
+        .form-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.07); border-top: 5px solid #4f46e5; overflow: hidden; max-width: 700px; }
+        .form-card-header { padding: 20px 28px; border-bottom: 1px solid #f3f4f6; }
+        .form-card-header h2 { font-size: 20px; font-weight: 700; color: #1e1b4b; margin: 0; }
+        .form-card-header p  { font-size: 13px; color: #6b7280; margin: 4px 0 0; }
+        .form-card-body { padding: 24px 28px; }
+        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label { font-size: 13px; font-weight: 600; color: #374151; }
+        .form-control-inv {
+            width: 100%; padding: 9px 12px; border: 1.5px solid #d1d5db; border-radius: 8px;
+            font-size: 14px; color: #111827; background: #fff; outline: none; transition: border-color .15s;
+        }
+        .form-control-inv:focus { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
+        select.form-control-inv { appearance: auto; }
+        .form-actions { display: flex; gap: 10px; margin-top: 24px; }
+
+        /* ── Buttons ── */
+        .btn-inv {
+            padding: 9px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+            border: none; cursor: pointer; transition: opacity .15s, transform .1s;
+        }
+        .btn-inv:hover { opacity: .88; transform: translateY(-1px); }
+        .btn-inv:active { transform: translateY(0); }
+        .btn-primary-inv { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; }
+        .btn-success-inv { background: #10b981; color: #fff; }
+        .btn-warning-inv { background: #f59e0b; color: #fff; }
+        .btn-danger-inv  { background: #ef4444; color: #fff; }
+        .btn-secondary-inv { background: #e5e7eb; color: #374151; }
+        .btn-sm-inv { padding: 5px 12px; font-size: 12px; border-radius: 6px; }
+
+        /* ── Filter bar ── */
+        .filter-bar { background: #fff; border-radius: 10px; padding: 14px 18px; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+        .filter-bar label { font-size: 13px; font-weight: 600; color: #374151; white-space: nowrap; }
+        .filter-bar select { flex: 1; }
+
+        /* ── Auto-style Django form widgets inside .form-card-body ── */
+        .form-card-body input[type="text"],
+        .form-card-body input[type="number"],
+        .form-card-body input[type="email"],
+        .form-card-body input[type="password"],
+        .form-card-body select,
+        .form-card-body textarea {
+            width: 100%; padding: 9px 12px; border: 1.5px solid #d1d5db; border-radius: 8px;
+            font-size: 14px; color: #111827; background: #fff; outline: none;
+            transition: border-color .15s; box-sizing: border-box;
+        }
+        .form-card-body input:focus,
+        .form-card-body select:focus,
+        .form-card-body textarea:focus {
+            border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,.1);
+        }
+
+        /* ── Footer ── */
+        .page-footer { text-align: center; color: #9ca3af; font-size: 12px; padding: 24px 0 16px; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar-inv">
+        <a href="{% url 'gestion_inventario:home' %}" class="brand">📦 Inventario</a>
+        <div class="nav-links">
+            <a href="{% url 'gestion_inventario:lista_productos' %}" class="nav-pill nav-pill-products">Productos</a>
+            <a href="{% url 'gestion_inventario:lista_categorias' %}" class="nav-pill nav-pill-cats">Categorias</a>
+            <a href="{% url 'gestion_inventario:lista_bodegas' %}" class="nav-pill nav-pill-bodegas">Bodegas</a>
+            <a href="{% url 'gestion_inventario:formulario_producto' %}" class="nav-pill nav-pill-products">+ Producto</a>
+        </div>
+        <a href="{% url 'gestion_usuarios:index' %}" class="nav-pill nav-pill-home">← Menu principal</a>
+    </nav>
+
+    <div class="page-wrap">
+        {% block contenido %}
+        {% endblock %}
+    </div>
+
+    <div class="page-footer">Microempresarios — Gestión de Inventario</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

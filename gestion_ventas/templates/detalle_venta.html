@@ -1,0 +1,111 @@
+{% extends 'ventas_layout.html' %}
+
+{% block renderizado %}
+
+<div class="detalle-container">
+
+    <!-- Encabezado -->
+    <div class="detalle-header">
+        <div>
+            <h1>{{ titulo }}</h1>
+            <p class="detalle-subtitulo">Información completa de la transacción</p>
+        </div>
+        <div class="detalle-estado-badge">
+            {% if venta.estado == "pagada" %}
+                <span class="badge badge-verde">✔ Pagada</span>
+            {% elif venta.estado == "cancelada" %}
+                <span class="badge badge-rojo">✘ Cancelada</span>
+            {% else %}
+                <span class="badge badge-amarillo">⏳ Pendiente</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Datos principales -->
+    <div class="detalle-seccion">
+        <h2 class="detalle-seccion-titulo">📋 Datos de la venta</h2>
+        <div class="detalle-grid">
+            <div class="detalle-item">
+                <span class="detalle-icon">👤</span>
+                <div>
+                    <p class="detalle-label">Cliente</p>
+                    <p class="detalle-valor">{{ venta.cliente_nombre }}</p>
+                </div>
+            </div>
+            <div class="detalle-item">
+                <span class="detalle-icon">📅</span>
+                <div>
+                    <p class="detalle-label">Fecha</p>
+                    <p class="detalle-valor">{{ venta.fecha }}</p>
+                </div>
+            </div>
+            <div class="detalle-item">
+                <span class="detalle-icon">🕐</span>
+                <div>
+                    <p class="detalle-label">Hora</p>
+                    <p class="detalle-valor">{{ venta.hora }}</p>
+                </div>
+            </div>
+            <div class="detalle-item">
+                <span class="detalle-icon">💰</span>
+                <div>
+                    <p class="detalle-label">Total</p>
+                    <p class="detalle-valor detalle-total">${{ venta.total }}</p>
+                </div>
+            </div>
+            <div class="detalle-item">
+                <span class="detalle-icon">🗓️</span>
+                <div>
+                    <p class="detalle-label">Fecha de creación</p>
+                    <p class="detalle-valor">{{ venta.fecha_creacion }}</p>
+                </div>
+            </div>
+            <div class="detalle-item">
+                <span class="detalle-icon">#️⃣</span>
+                <div>
+                    <p class="detalle-label">ID de venta</p>
+                    <p class="detalle-valor">#{{ venta.id }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Productos -->
+    <div class="detalle-seccion">
+        <h2 class="detalle-seccion-titulo">🛒 Productos de esta venta</h2>
+
+        <div class="productos-tabla">
+            <div class="productos-tabla-header">
+                <span>Producto</span>
+                <span>Cantidad</span>
+                <span>Precio unitario</span>
+                <span>Subtotal</span>
+            </div>
+            {% for detalle in detalles %}
+            <div class="productos-tabla-fila">
+                <span class="prod-nombre">{{ detalle.producto.nombre }}</span>
+                <span class="prod-cantidad">{{ detalle.cantidad }}</span>
+                <span class="prod-precio">${{ detalle.precio_unitario }}</span>
+                <span class="prod-subtotal">${{ detalle.precio_unitario }}</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="detalle-total-box">
+            <span>Total de la venta</span>
+            <span class="detalle-total">${{ venta.total }}</span>
+        </div>
+    </div>
+
+    <!-- Acciones -->
+    <div class="detalle-acciones">
+        <a href="{% url 'gestion_ventas:lista_ventas' %}" class="btn btn-secondary">← Volver a la lista</a>
+        <a href="{% url 'gestion_ventas:editar_venta' venta.id %}" class="btn">✏️ Editar venta</a>
+        <a href="{% url 'gestion_ventas:exportar_pdf' %}?buscar={{ venta.cliente_nombre }}" class="btn btn-pdf">📄 Exportar PDF</a>
+    </div>
+
+</div>
+
+{% endblock %}

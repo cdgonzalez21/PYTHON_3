@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+
+{% block contenido %}
+<h1 class="page-title">Gestión de Inventario</h1>
+<p class="page-subtitle">Resumen general del inventario</p>
+
+<div class="stats-grid">
+    <div class="stat-card indigo">
+        <div class="stat-icon indigo">📦</div>
+        <div class="stat-info">
+            <div class="stat-value">{{ total_productos }}</div>
+            <div class="stat-label">Total Productos</div>
+        </div>
+    </div>
+    <div class="stat-card green">
+        <div class="stat-icon green">🏷️</div>
+        <div class="stat-info">
+            <div class="stat-value">{{ total_categorias }}</div>
+            <div class="stat-label">Categorias</div>
+        </div>
+    </div>
+    <div class="stat-card amber">
+        <div class="stat-icon amber">🏭</div>
+        <div class="stat-info">
+            <div class="stat-value">{{ total_bodegas }}</div>
+            <div class="stat-label">Bodegas</div>
+        </div>
+    </div>
+    <div class="stat-card red">
+        <div class="stat-icon red">⚠️</div>
+        <div class="stat-info">
+            <div class="stat-value">{{ total_agotados }}</div>
+            <div class="stat-label">Productos Agotados</div>
+        </div>
+    </div>
+</div>
+
+<div class="action-grid">
+    <a href="{% url 'gestion_inventario:lista_productos' %}" class="action-card">
+        <div class="ac-icon indigo">📋</div>
+        Ver Productos
+    </a>
+    <a href="{% url 'gestion_inventario:lista_categorias' %}" class="action-card">
+        <div class="ac-icon green">🏷️</div>
+        Ver Categorias
+    </a>
+    <a href="{% url 'gestion_inventario:lista_bodegas' %}" class="action-card">
+        <div class="ac-icon amber">🏭</div>
+        Ver Bodegas
+    </a>
+    <a href="{% url 'gestion_inventario:formulario_producto' %}" class="action-card">
+        <div class="ac-icon indigo">➕</div>
+        Agregar Producto
+    </a>
+</div>
+{% endblock %}
