@@ -1,39 +1,24 @@
-import uuid
-from django.db import models
+from djongo import models
 
 
 class Rol(models.Model):
-    nombre = models.CharField(max_length=50, unique=True)
-    descripcion = models.TextField(blank=True)
-    activo = models.BooleanField(default=True)
+    nombre = models.CharField(max_length=80)
+    descripcion = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.nombre
-
-class Modulo(models.Model):
-
-    nombre = models.CharField(
-        max_length=100,
-        unique=True
-    )
-
-    def __str__(self):
-        return self.nombre
+    class Meta:
+        abstract = True
 
 
 class Usuario(models.Model):
     nombre = models.CharField(max_length=80)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128)
-    fecha_nacimiento = models.DateField()
-    hora_creacion = models.TimeField(auto_now_add=True)
-    fecha_creacion =  models.DateField(auto_now_add=True, null=True)
+    fecha_nacimiento = models.DateField(auto_now_add=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
     activo = models.BooleanField(default=True)
-    confirmado = models.BooleanField(null=True, blank=True)
-    rol = models.ForeignKey(Rol,on_delete=models.PROTECT,related_name="usuarios")
-    modulos = models.ManyToManyField(Modulo,blank=True)
-    uuid_public = models.UUIDField(default=uuid.uuid4,editable=False,unique=True,primary_key=True)
+    roles = models.EmbeddedField(model_container=Rol)
 
     def __str__(self):
-        return f"Usuario: {self.nombre}"
+        return self.nombre
+
 
