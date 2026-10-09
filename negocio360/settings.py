@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'gestion_finanzas',
+    'gestion_inventario',
+    'gestion_reportes',
+    'gestion_usuarios',
+    'gestion_ventas'
 ]
 
 MIDDLEWARE = [
@@ -81,10 +86,10 @@ WSGI_APPLICATION = 'negocio360.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django',
+        'ENGINE': 'djongo',
         'NAME': 'negocio360',
         'CLIENT': {
-            'host': 'mongodb://localhost:27017',
+            'host': 'mongodb://localhost:27017/'
         }
     }
 }

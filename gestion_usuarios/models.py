@@ -16,7 +16,7 @@ class Usuario(models.Model):
     fecha_nacimiento = models.DateField(auto_now_add=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     activo = models.BooleanField(default=True)
-    roles = models.EmbeddedField(model_container=Rol)
+    rol = models.EmbeddedField(model_container=Rol)
 
     def __str__(self):
         return self.nombre
